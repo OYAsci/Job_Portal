@@ -1,7 +1,7 @@
 # Dependencies
-Backend\node_modules
+Backend/node_modules
 
 # Secret
-Backend\.env
+Backend/.env
 
 
