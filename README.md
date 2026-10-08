@@ -4,7 +4,7 @@ A small full-stack job_portal project with a static HTML/CSS/JavaScript frontend
 
 ## Current features
 
-- Register an employee/job-seeker account
+- Register an employee/job-portal account
 - Log in with email and password
 - View a basic dashboard
 - Delete an account
