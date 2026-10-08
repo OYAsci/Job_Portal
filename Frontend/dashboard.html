@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Dashboard</title>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Dashboard</h1>
+    <p>Welcome back</p>
+  </div>
+
+  <div class="topnav">
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="Login.html" style="float:right">Logout</a>
+  </div>
+
+  <div class="row">
+    <div class="leftcolumn">
+      <div class="card">
+        <h2>Overview</h2>
+        <p>You are logged in successfully.</p>
+
+        <h3>Stored user ID (optional)</h3>
+        <p id="profileMsg"></p>
+      </div>
+    </div>
+
+    <div class="rightcolumn">
+      <div class="card">
+        <h3>Actions</h3>
+        <ul>
+          <li><a href="index.html">Go to Home</a></li>
+          <li><a href="Register.html">Create another account</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<button id="deleteAccountBtn" type="button">Delete my account</button>
+<p id="deleteMsg"></p>
+  <div class="footer">
+    <h2>Footer</h2>
+  </div>
+<script>
+  const userId = localStorage.getItem("userId");
+
+  document.getElementById("profileMsg").textContent =
+    userId ? ("Logged in userId: " + userId) : "No userId stored.";
+
+  document.getElementById("deleteAccountBtn").addEventListener("click", async () => {
+    console.log("Delete button clicked"); // debug
+
+    if (!userId) {
+      alert("No userId found. Please log in again.");
+      return;
+    }
+
+    const ok = confirm("Are you sure you want to delete your account? This cannot be undone.");
+    if (!ok) return;
+
+    try {
+      const res = await fetch(`http://localhost:3000/api/users/${userId}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        alert(data.error || "Delete failed");
+        return;
+      }
+
+      localStorage.removeItem("userId");
+      alert("Account deleted successfully.");
+      window.location.href = "index.html";
+    } catch (err) {
+      console.error(err);
+      alert("Network error. Is the backend running?");
+    }
+  });
+</script>
+   
+</body>
+</html>
